@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
-def weisfeiler_lehman_iter(G:nx.Graph):
+def weisfeiler_lehman_iter(G: nx.Graph):
     # Iterando em cada nó e verificando o label dos vizinhos
     mset = {}
     for node in G.nodes:
@@ -19,7 +19,11 @@ def weisfeiler_lehman_iter(G:nx.Graph):
         G.nodes[node]['label'] = mset[node]
 
 
-def weisfeiler_lehman_test(G:nx.Graph, H:nx.Graph, k: int):
+def check_equal(G: nx.graph, H: nx.graph):
+    return sorted(G.nodes) == sorted(H.nodes)
+
+
+def weisfeiler_lehman_test(G: nx.Graph, H: nx.Graph, k: int):
     # Sanity check
     if len(G.nodes) != len(H.nodes) | len(G.edges) != len(G.edges):
         return False
@@ -35,18 +39,16 @@ def weisfeiler_lehman_test(G:nx.Graph, H:nx.Graph, k: int):
     for i in range(k):
         weisfeiler_lehman_iter(G)
         weisfeiler_lehman_iter(H)
-
-        # Check if labels are equal
-        # A fazer
-
-
+        if check_equal(G, H):
+            continue
+        else:
+            return False
 
     return True
 
 
 if __name__ == '__main__':
     pass
-
 
 # Test
 G = nx.Graph()
