@@ -36,5 +36,7 @@ def get_example():
 
     return G, H
 
-G, H = get_example()
-print(G)
+
+if __name__ == '__main__':
+    G, H = get_example()
+    print(G)
