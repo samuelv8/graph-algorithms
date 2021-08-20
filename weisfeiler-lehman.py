@@ -1,4 +1,5 @@
 import networkx as nx
+import matplotlib.pyplot as plt
 
 
 def weisfeiler_lehman_iter(G:nx.Graph):
@@ -56,3 +57,31 @@ H = nx.Graph()
 H.add_edges_from([(1, 5), (1, 6), (1, 7), (2, 5), (2, 6), (2, 8), (3, 5), (3, 7), (3, 8), (4, 6), (4, 7), (4, 8)])
 
 print(weisfeiler_lehman_test(G, H, 10))
+
+# Print graphs
+
+# explicitly set positions
+pos = {1: (0, 0), 2: (0, 3), 3: (3, 3), 4: (3, 0), 5: (1, 1), 6: (1, 2), 7: (2, 2), 8: (2, 1)}
+
+options = {
+    "font_size": 22,
+    "node_size": 1000,
+    "node_color": "white",
+    "edgecolors": "black",
+    "linewidths": 5,
+    "width": 5,
+}
+nx.draw_networkx(G, pos, **options)
+
+ax = plt.gca()
+ax.margins(0.20)
+plt.axis("off")
+plt.show()
+
+pos = {1: (0, 3), 2: (0, 2), 3: (0, 1), 4: (0, 0), 5: (1, 3), 6: (1, 2), 7: (1, 1), 8: (1, 0)}
+nx.draw_networkx(H, pos, **options)
+
+ax = plt.gca()
+ax.margins(0.20)
+plt.axis("off")
+plt.show()
