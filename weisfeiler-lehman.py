@@ -50,7 +50,6 @@ if __name__ == '__main__':
 
 # Test
 G = nx.Graph()
-G.add_nodes_from(range(1, 8))
 G.add_edges_from([(1, 2), (1, 4), (1, 5), (2, 3), (2, 6), (3, 4), (3, 7), (4, 8), (5, 6), (5, 8), (6, 7), (7, 8)])
 
 H = nx.Graph()
