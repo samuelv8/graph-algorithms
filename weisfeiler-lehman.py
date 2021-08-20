@@ -19,12 +19,21 @@ def weisfeiler_lehman_iter(G: nx.Graph):
     for node in G.nodes:
         G.nodes[node]['label'] = mset[node]
 
+    return Counter(mset.values())
+
 
 def check_equal(G: nx.graph, H: nx.graph):
     return sorted(G.nodes) == sorted(H.nodes)
 
 
 def weisfeiler_lehman_test(G: nx.Graph, H: nx.Graph, k: int):
+    """
+    Applies the Weisfeiler-Lehman isomorphism test between two graphs.
+    :param G: First graph
+    :param H: Second graph
+    :param k: Iteration limit
+    :return: True if it passed the test in k iterations or False if don't
+    """
     # Sanity check
     if len(G.nodes) != len(H.nodes) | len(G.edges) != len(G.edges):
         return False
@@ -36,12 +45,19 @@ def weisfeiler_lehman_test(G: nx.Graph, H: nx.Graph, k: int):
     for node in H.nodes:
         H.nodes[node]['label'] = H.degree[node]
 
-    # Iterações do teste de Weisfeiler
+    # Iterações do teste de Weisfeiler-Lehman
+    c = []
     for i in range(k):
-        weisfeiler_lehman_iter(G)
+        new_c = weisfeiler_lehman_iter(G)
         weisfeiler_lehman_iter(H)
         if check_equal(G, H):
-            continue
+            new_c = sorted(list(new_c.values()))
+            if new_c == c:
+                # Stops iterating if the label's configuration hasn't changed
+                break
+            else:
+                c = new_c
+                continue
         else:
             return False
 
