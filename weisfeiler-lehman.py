@@ -1,18 +1,19 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+from collections import Counter
 
 
 def weisfeiler_lehman_iter(G: nx.Graph):
     # Iterando em cada nó e verificando o label dos vizinhos
     mset = {}
     for node in G.nodes:
-        mset[node] = ()
+        mset[node] = Counter()  # python built-in type for multisets
         for ng in G[node]:
-            mset[node] += (G.nodes[ng]['label'],)
+            mset[node][G.nodes[ng]['label']] += 1
 
-    # Iterando pelos multisets criados e fazndo o hash
+    # Iterando pelos multisets criados e fazendo o hash
     for node in G.nodes:
-        mset[node] = hash(mset[node])
+        mset[node] = hash(frozenset(mset[node].items()))  # frozenset allows to hash dict obj
 
     # Atribuindo novo label para cada nó
     for node in G.nodes:
